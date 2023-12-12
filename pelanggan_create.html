@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <form action="" id="formPelanggan">
+        <div class="form-group">
+            <label for="nama_pelanggan">Name</label>
+            <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" placeholder="Masukkan Nama Anda" required />
+        </div>
+        <div class="form-group">
+            <label for="alamat_pelanggan">Alamat</label>
+            <input type="text" name="alamat_pelanggan" id="alamat_pelanggan" class="form-control" placeholder="Masukkan Alamat Anda" required />
+        </div>
+        <div class="form-group">
+            <label for="telepon_pelanggan">Phone Number</label>
+            <input type="text" name="telepon_pelanggan" id="telepon_pelanggan" class="form-control" placeholder="Masukkan Nomor HP Anda" required />
+        </div>
+        <div class="form-group">
+            <a href="pelanggan_index.html" class="btn btn-sm btn-warning">Kembali</a>
+            <button type="submit" class="btn btn-sm btn-success" id="submit"><i class='fa fa-save'></i> Simpan</button>
+        </div>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $('#formPelanggan').submit(function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var formData = new FormData(this);
+                $.ajax({
+                    type: 'POST',
+                    url: "http://localhost/projekuas-main/index.php/api/pelanggan",
+                    headers: {
+                        // Add any required headers here
+                    },
+                    contentType: false, // Let jQuery handle the Content-Type
+                    processData: false, // Prevent jQuery from processing the data
+                    data: formData,
+                    success: function (response) {
+                        alert('Pelanggan berhasil ditambahkan');
+                        window.location.href = 'pelanggan_index.html';
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("AJAX request failed:", status, error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

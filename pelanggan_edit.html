@@ -1,0 +1,55 @@
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    var base_url = "http://localhost/projekuas-main/api/";
+
+    $(document).ready(function () {
+        var storedSessionData = localStorage.getItem('singleData'); // Fix typo in getItem
+        if (storedSessionData) {
+            var retrievedSessionData = JSON.parse(storedSessionData);
+        } else {
+            window.location.href = 'pelanggan_index.html';
+        }
+
+        let dataRender = `<div class="form-group">
+                        <input type="hidden" id="id" value="${retrievedSessionData.id}">
+                        <label for="exampleInputPassword1">Name</label>
+                        <input type="text" name="name" id="name" class="form-control" value="${retrievedSessionData.name}" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Phone Number</label>
+                        <input type="text" name="number" id="number" class="form-control" value="${retrievedSessionData.number}" required />
+                    </div>
+                    <div class="form-group">
+                        <a href="pelanggan_index.html" class="btn btn-sm btn-warning">Kembali</a>
+                        <button type="button" class="btn btn-sm btn-success" id="btnSave"><i class="fa fa-save"></i> Simpan </button>
+                    </div>`;
+        
+        $("#dataRender").empty();
+        $("#dataRender").append(dataRender);
+
+        $(document).on('click', '#btnSave', function () {
+            $.ajax({
+                type: "PUT",
+                url: base_url + "pelanggan",
+                contentType: 'application/json',
+                dataType: "json",
+                data: JSON.stringify({
+                    id: $("#id").val(),
+                    nama_inputan: $("#name").val(),
+                    nomor_inputan: $("#number").val(),
+                }),
+                cache: false,
+                success: function (data) {
+                    if (data.status_code == 502 || data.status_code == 404) {
+                        alert(data.message);
+                    } else {
+                        window.location.href = 'pelanggan_index.html';
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.error('AJAX request failed:', textStatus, errorThrown);
+                }
+            });
+        });
+    });
+</script>

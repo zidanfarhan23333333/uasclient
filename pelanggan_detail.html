@@ -1,0 +1,22 @@
+<script>
+    var base_url = "http://localhost/projekuas-main/api/";
+    $(document).ready(function () {
+        var storedSessionData = localStorage.getItem('singleData');
+        if (storedSessionData) {
+            var retrievedSessionData = JSON.parse(storedSessionData);
+        } else {
+            window.location.href = 'pelanggan_index.html';
+        }
+
+        let dataRender = `<tr>
+                                <th style="width:15%;">Name</th>
+                                <td>: ${retrievedSessionData.name}</td>
+                            </tr>
+                            <tr>
+                                <th style="width:15%;">Phone Number</th>
+                                <td>: ${retrievedSessionData.number}</td>
+                            </tr>`;
+        $("#tableRender").empty();
+        $("#tableRender").append(dataRender); 
+    });
+</script>
